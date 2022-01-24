@@ -1,6 +1,6 @@
 // Linking HTML 
 var searchButton = document.querySelector("#searchBtn");
-var weatherSection = document.querySelector("#weatherContent");
+var weatherSectionE1 = document.querySelector("#weatherContent");
 var sideBar = document.querySelector("#sideBar");
 var historyContent = document.querySelector(".history");
 var input = document.querySelector("#input");
@@ -17,8 +17,13 @@ function init() {
     getHistory();
 }
 
-function searchApi(query) {
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+function searchApi(city) {
+    
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + APIKey;
+
+    var lon;
+    var lat;
+    var city;
 
     fetch(queryURL) 
         .then(function (response) {
@@ -33,7 +38,7 @@ function searchApi(query) {
             city = data.name;
         })
         .then(function () {
-            let weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,hourly,daily&appid=" + APIKey;
+            var weatherUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=metric&appid=" + APIKey;
             fetch(weatherUrl)
                 .then(function (response) {
                     if (!response.ok) {
@@ -46,19 +51,20 @@ function searchApi(query) {
                 })
 
         })
-}
+};
+
 
 function printResults(results, name) {
 
-    weatherSection.innerHTML = "";
+    weatherSectionE1.innerHTML = "";
 
     var locationE1 = document.createElement('div');
     locationE1.classList.add('card');
-    weatherSection.append(locationE1);
+    weatherSectionE1.append(locationE1);
     var locationHeader = document.createElement('div');
-    locationHeader.classList.add('cardHeader');
+    locationHeader.classList.add('cardHeader', 'd-flex', 'flex-row');
     var locationInfo = document.createElement('div');
-    locationInfo.classList.add('card');
+    locationInfo.classList.add('card-body');
     locationE1.append(locationHeader, locationInfo);
 
     var title = document.createElement('h2');
@@ -72,7 +78,7 @@ function printResults(results, name) {
     locationHeader.append(title, weatherImage);
 
     var temp = document.createElement('p');
-    temp.textContent = "Temp: " + results.current.temp + "c";
+    temp.textContent = "Temp: " + results.current.temp + "°C";
 
     var wind = document.createElement('p');
     wind.textContent = "Wind: " + results.current.wind_speed + "km/h";
@@ -84,7 +90,7 @@ function printResults(results, name) {
     index.textContent = "UV Index: " + results.current.uvi;
     if(results.current.uvi < 3) {
         index.classList.add("text-success", "fw-bold");
-    } else if (results.current.uvi > 3  && results.curren.uvi < 6) {
+    } else if (results.current.uvi > 3  && results.current.uvi < 6) {
         index.classList.add("text-warning", "fw-bold");
     } else {
         index.classList.add("text-danger", "fw-bold");
@@ -94,7 +100,7 @@ function printResults(results, name) {
 
     var forecast = document.createElement('div');
     forecast.classList.add('d-flex', 'daily');
-    weatherSection.append(forecast);
+    weatherSectionE1.append(forecast);
     setHistory(name);
 
     for (var i = 0; i < 5; i++) {
@@ -118,17 +124,20 @@ function printResults(results, name) {
         day.append(image);
 
         var temp = document.createElement('p');
-        temp.textContent = "Temp: " + results.daily[i].temp.day + 'c';
+        temp.textContent = "Temp: " + results.daily[i].temp.day + '°C';
+        day.append(temp);
 
         var wind = document.createElement('p');
         wind.textContent = "Wind: " + results.daily[i].wind_speed + 'km/h';
+        day.append(wind);
 
         var humidity = document.createElement('p');
         humidity.textContent = "Humiditiy: " + results.daily[i].humidity + '%';
         day.append(humidity);
+
         dayContainer.append(day);
     }
-}
+};
 
 function handleSearchResults() {
     var inputVal = document.querySelector("#input").value;
@@ -138,7 +147,7 @@ function handleSearchResults() {
         return;
     }
     searchApi(inputVal);
-}
+};
 
 function setHistory(name) {
     if (searchHistory.includes(name) == false) {
@@ -146,11 +155,11 @@ function setHistory(name) {
         localStorage.setItem("location", JSON.stringify(searchHistory));
         addCity(name);
     }
-}
+};
 
 function getHistoryFromStorage() {
     return JSON.parse(localStorage.getItem("location")) || [];
-}
+};
 
 function addCity(city) {
     createHistory = document.createElement('button');
@@ -158,7 +167,7 @@ function addCity(city) {
     createHistory.textContent = city;
     createHistory.setAttribute("city-data", city);
     historyContent.append(createHistory);
-}
+};
 
 function getHistory() {
     searchHistory = getHistoryFromStorage();
@@ -166,7 +175,7 @@ function getHistory() {
     for (var i = 0; i < searchHistory.length; i++) {
         addCity(searchHistory[i]);
     }
-}
+};
 
 init();
 
@@ -174,8 +183,9 @@ searchButton.addEventListener("click", function () {
     handleSearchResults();
     getHistory();
     input.value = "";
-})
+});
 
 historyContent.addEventListener("click", function (event) {
     searchApi(event.target.dataset.city);
-})
+});
+
