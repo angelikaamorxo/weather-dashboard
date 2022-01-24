@@ -15,7 +15,7 @@ var APIKey = "1112e3fcb547812716547c3829826d88";
 
 function init() {
     getHistory();
-}
+};
 
 function searchApi(city) {
     
@@ -163,7 +163,7 @@ function getHistoryFromStorage() {
 
 function addCity(city) {
     createHistory = document.createElement('button');
-    createHistory.classList.add('btn');
+    createHistory.classList.add('form-item', 'btn');
     createHistory.textContent = city;
     createHistory.setAttribute("city-data", city);
     historyContent.append(createHistory);
