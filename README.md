@@ -22,7 +22,7 @@ THEN I am again presented with current and future conditions for that city
 Created a website that fetches data from 2 different APIs. Once user states which city it wants to look at, the weather and forecast for the next 5 days shows up. 
 
 ## The Final Product
-![Getting Started](./assets/images/code.jpg)
+![_C__Users_angel_OneDrive_Documents_bootcamp_weather-dashboard_index html](https://user-images.githubusercontent.com/94064933/150780384-805a82b3-4c6c-42df-9688-6478a724e721.png)
 
 ## Code
 Screenshot of code can be found in assets > images.
