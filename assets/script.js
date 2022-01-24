@@ -20,7 +20,7 @@ function init() {
 function searchApi(city) {
     
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + APIKey;
-
+    // Retrieves data from fetch call
     var lon;
     var lat;
     var city;
@@ -56,8 +56,10 @@ function searchApi(city) {
 
 function printResults(results, name) {
 
+    //Clears previous location data
     weatherSectionE1.innerHTML = "";
 
+    //Adds card elements
     var locationE1 = document.createElement('div');
     locationE1.classList.add('card');
     weatherSectionE1.append(locationE1);
@@ -67,16 +69,19 @@ function printResults(results, name) {
     locationInfo.classList.add('card-body');
     locationE1.append(locationHeader, locationInfo);
 
+    //Adds location title
     var title = document.createElement('h2');
     title.textContent = name;
     title.classList.add('card-title');
 
+    //Adds weather image 
     var weatherImage = document.createElement('img');
     var iconcode = results.current.weather[0].icon;
     var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png";
     weatherImage.setAttribute('src', iconurl);
     locationHeader.append(title, weatherImage);
 
+    //Adds temperature, wind, humidity and UV index
     var temp = document.createElement('p');
     temp.textContent = "Temp: " + results.current.temp + "°C";
 
@@ -98,11 +103,13 @@ function printResults(results, name) {
 
     locationInfo.append(temp, wind, humidity, index);
 
+    //5 Day forecast
     var forecast = document.createElement('div');
     forecast.classList.add('d-flex', 'daily');
     weatherSectionE1.append(forecast);
     setHistory(name);
 
+    //Adds information to card like the main one
     for (var i = 0; i < 5; i++) {
         var dayContainer = document.createElement('div');
         dayContainer.classList.add('weekday', 'card');
@@ -149,6 +156,7 @@ function handleSearchResults() {
     searchApi(inputVal);
 };
 
+//Location history
 function setHistory(name) {
     if (searchHistory.includes(name) == false) {
         searchHistory.push(name);
@@ -185,6 +193,7 @@ searchButton.addEventListener("click", function () {
     input.value = "";
 });
 
+//Shows weather results
 historyContent.addEventListener("click", function (event) {
     searchApi(event.target.dataset.city);
 });

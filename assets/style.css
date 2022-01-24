@@ -10,11 +10,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: lightgray;
+    background-color: lightpink;
 }
 
 h1 {
-    color: darkslateblue;
+    color: white;
 }
 
 input {
@@ -43,7 +43,7 @@ input {
 .btn {
     width: 100%;
     margin: 10px 0;
-    background-color: lightsteelblue;
+    background-color: lightseagreen;
     color: black;
 }
 
@@ -67,7 +67,7 @@ input {
 }
 
 .forecast {
-    background-color: dodgerblue;
+    background-color: darkmagenta;
     color: white;
     border-radius: 5px;
 }
